@@ -51,3 +51,9 @@ pnpm-debug.log*
 # Temporary / Scratch Files
 scratch/
 .tmp/
+
+# Media & Video Files
+*.mov
+*.mp4
+*.avi
+
