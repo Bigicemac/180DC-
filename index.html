@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Macwatis - Financial Overview</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<div id="auth-page-screen" class="auth-page-screen" style="display: flex;">
+  <div class="auth-page-card">
+    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 22px;">
+      <div class="brand-logo-box" style="width: 34px; height: 34px; font-size: 18px;">
+        <i class="ti ti-wallet"></i>
+      </div>
+      <div>
+        <h2 style="font-size: 17px; font-weight: 600; color: var(--text-primary); margin: 0; letter-spacing: -0.01em;">
+          Macwatis</h2>
+      </div>
+    </div>
+    <div class="auth-tabs" style="margin-top: 0; margin-bottom: 18px;">
+      <button type="button" class="auth-tab active" id="tab-login" onclick="switchAuthTab('login')">Sign In</button>
+      <button type="button" class="auth-tab" id="tab-register" onclick="switchAuthTab('register')">Create
+        Account</button>
+    </div>
+    <div id="auth-alert-box" class="auth-alert" style="display: none;"></div>
+    <form id="form-auth" onsubmit="handleAuthSubmit(event)">
+      <div class="form-group" id="auth-name-group" style="display: none; margin-bottom: 12px;">
+        <label class="form-label">Full Name</label>
+        <input type="text" class="form-input" id="auth-name" placeholder="e.g. Pratham Sawant">
+      </div>
+      <div class="form-group" style="margin-bottom: 12px;">
+        <label class="form-label">Email Address</label>
+        <input type="email" class="form-input" id="auth-email" placeholder="name@example.com" required
+          autocomplete="email">
+      </div>
+      <div class="form-group" style="margin-bottom: 16px;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <label class="form-label">Password</label>
+          <span style="font-size: 11px; color: var(--text-muted);" id="auth-password-hint">Min 6 characters</span>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <input type="password" class="form-input" id="auth-password" placeholder="••••••••" required minlength="6"
+            autocomplete="current-password" style="flex: 1;">
+          <button type="button" class="btn-ghost-sm" onclick="toggleApiKeyVisibility('auth-password', this)"
+            title="Show/Hide Password">
+            <i class="ti ti-eye"></i>
+          </button>
+        </div>
+      </div>
+      <button type="submit" class="btn-submit" id="auth-submit-btn">
+        <span id="auth-submit-btn-text">Sign In</span>
+      </button>
+    </form>
+    <div style="margin-top: 18px; text-align: center; font-size: 12px; color: var(--text-secondary);">
+      <span id="auth-footer-prompt">Don't have an account yet?</span>
+      <a href="javascript:void(0)" onclick="toggleAuthMode()" id="auth-footer-link"
+        style="color: var(--text-accent); text-decoration: none; font-weight: 500; margin-left: 4px;">Create account</a>
+    </div>
+  </div>
+</div>
+<div class="app-container" id="app-main-container" style="display: none;">
+  <aside class="sidebar">
+    <div class="brand-header">
+      <div class="brand-logo-box">
+        <i class="ti ti-wallet"></i>
+      </div>
+      <span class="brand-title">Macwatis</span>
+    </div>
+    <nav class="nav-links">
+      <div class="nav-item active" data-view="dashboard-view" id="nav-dashboard">
+        <i class="ti ti-layout-dashboard"></i>
+        <span>Dashboard</span>
+      </div>
+      <div class="nav-item" data-view="ai-view" id="nav-ai">
+        <i class="ti ti-message-circle"></i>
+        <span>AI assistant</span>
+      </div>
+      <div class="nav-item" data-view="settings-view" id="nav-settings">
+        <i class="ti ti-settings"></i>
+        <span>Settings</span>
+      </div>
+    </nav>
+    <div class="user-profile" id="sidebar-user-profile" onclick="handleUserProfileClick()" title="Sign Out" style="cursor: pointer;">
+      <div class="avatar" id="sidebar-user-avatar">U</div>
+      <div style="flex: 1; min-width: 0;">
+        <span class="user-name" id="sidebar-user-name">User</span>
+      </div>
+      <i class="ti ti-logout" id="sidebar-auth-icon" style="color: var(--text-secondary); font-size: 16px;"></i>
+    </div>
+  </aside>
+  <main class="main-content">
+    <section id="dashboard-view" class="view-panel active">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title" id="dashboard-greeting">Good evening</h1>
+          <p class="page-subtitle">Here's your financial overview for September</p>
+        </div>
+        <button class="btn-primary" onclick="openModal('add-tx-modal')">
+          <i class="ti ti-plus"></i>Add transaction
+        </button>
+      </div>
+      <div class="stats-grid-4">
+        <div class="stat-card clickable" onclick="navigateToView('transactions-view')">
+          <span class="stat-label">Income</span>
+          <span class="stat-value success" id="stat-income-val">₹85,000</span>
+        </div>
+        <div class="stat-card clickable" onclick="navigateToView('transactions-view')">
+          <span class="stat-label">Expenses</span>
+          <span class="stat-value danger" id="stat-expenses-val">₹52,400</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Net savings</span>
+          <span class="stat-value" id="stat-savings-val">₹32,600</span>
+        </div>
+        <div class="stat-card clickable" onclick="navigateToView('budgets-view')">
+          <span class="stat-label">Budget used</span>
+          <span class="stat-value" id="stat-budget-val">68%</span>
+        </div>
+      </div>
+      <div class="middle-grid-3">
+        <div class="dashboard-card clickable" onclick="navigateToView('emis-view')">
+          <div class="card-header-line">
+            <i class="ti ti-credit-card card-header-icon"></i>
+            <span class="card-title">EMIs</span>
+          </div>
+          <div class="row-item">
+            <span>Phone EMI</span>
+            <span>₹2,100</span>
+          </div>
+          <div class="row-item">
+            <span>Laptop EMI</span>
+            <span>₹3,400</span>
+          </div>
+          <p class="card-footer-caption">Next due: 18 Sep</p>
+        </div>
+        <div class="dashboard-card clickable" onclick="navigateToView('loans-view')">
+          <div class="card-header-line">
+            <i class="ti ti-building-bank card-header-icon"></i>
+            <span class="card-title">Loans</span>
+          </div>
+          <div class="row-item">
+            <span>Car loan</span>
+            <span>₹4,80,000 left</span>
+          </div>
+          <div class="row-item">
+            <span>Personal loan</span>
+            <span>₹95,000 left</span>
+          </div>
+          <p class="card-footer-caption">2 active loans</p>
+        </div>
+        <div class="dashboard-card clickable" onclick="navigateToView('fmex-view')">
+          <div class="card-header-line">
+            <i class="ti ti-repeat card-header-icon"></i>
+            <span class="card-title">Fixed monthly expenses</span>
+          </div>
+          <div class="row-item">
+            <span>Rent</span>
+            <span>₹18,000</span>
+          </div>
+          <div class="row-item">
+            <span>Subscriptions</span>
+            <span>₹950</span>
+          </div>
+          <p class="card-footer-caption">Total FMEX: ₹18,950/mo</p>
+        </div>
+      </div>
+      <div class="transactions-card clickable" onclick="navigateToView('transactions-view')">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <h3 class="card-title" style="margin: 0;">Recent transactions</h3>
+          <span style="font-size: 12px; color: var(--text-secondary);">View all &rarr;</span>
+        </div>
+        <div class="tx-list" id="dashboard-tx-list">
+          <div class="tx-row">
+            <span>Swiggy order</span>
+            <span class="tx-amount danger">-₹420</span>
+          </div>
+          <div class="tx-row">
+            <span>Salary credit</span>
+            <span class="tx-amount success">+₹85,000</span>
+          </div>
+          <div class="tx-row">
+            <span>Electricity bill</span>
+            <span class="tx-amount danger">-₹1,850</span>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="transactions-view" class="view-panel">
+      <button class="btn-back" onclick="navigateToView('dashboard-view')">
+        <i class="ti ti-arrow-left"></i> Back to Dashboard
+      </button>
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Transactions</h1>
+          <p class="page-subtitle">All income and expenses</p>
+        </div>
+        <button class="btn-primary" onclick="openModal('add-tx-modal')">
+          <i class="ti ti-plus"></i>Add transaction
+        </button>
+      </div>
+      <div class="filter-bar">
+        <div class="search-field">
+          <i class="ti ti-search" style="color: var(--text-muted); font-size: 15px;"></i>
+          <input type="text" id="tx-search-input" placeholder="Search transactions" oninput="filterTransactions()">
+        </div>
+        <select class="select-filter" id="tx-category-filter" onchange="filterTransactions()">
+          <option value="all">All categories</option>
+          <option value="Food">Food</option>
+          <option value="Income">Income</option>
+          <option value="Utilities">Utilities</option>
+          <option value="Travel">Travel</option>
+          <option value="Shopping">Shopping</option>
+        </select>
+        <select class="select-filter">
+          <option>This month</option>
+          <option>Last month</option>
+          <option>Last 3 months</option>
+        </select>
+      </div>
+      <div class="table-card">
+        <div class="table-header">
+          <span>Description</span>
+          <span>Category</span>
+          <span>Date</span>
+          <span style="text-align: right;">Amount</span>
+        </div>
+        <div id="transactions-table-body">
+          <div class="table-row">
+            <span>Swiggy order</span>
+            <span style="color: var(--text-secondary);">Food</span>
+            <span style="color: var(--text-secondary);">12 Sep</span>
+            <span style="text-align: right; color: var(--text-danger); font-weight: 500;">-₹420</span>
+          </div>
+          <div class="table-row">
+            <span>Salary credit</span>
+            <span style="color: var(--text-secondary);">Income</span>
+            <span style="color: var(--text-secondary);">1 Sep</span>
+            <span style="text-align: right; color: var(--text-success); font-weight: 500;">+₹85,000</span>
+          </div>
+          <div class="table-row">
+            <span>Electricity bill</span>
+            <span style="color: var(--text-secondary);">Utilities</span>
+            <span style="color: var(--text-secondary);">8 Sep</span>
+            <span style="text-align: right; color: var(--text-danger); font-weight: 500;">-₹1,850</span>
+          </div>
+          <div class="table-row">
+            <span>Zomato order</span>
+            <span style="color: var(--text-secondary);">Food</span>
+            <span style="color: var(--text-secondary);">10 Sep</span>
+            <span style="text-align: right; color: var(--text-danger); font-weight: 500;">-₹610</span>
+          </div>
+          <div class="table-row">
+            <span>Flight booking</span>
+            <span style="color: var(--text-secondary);">Travel</span>
+            <span style="color: var(--text-secondary);">5 Sep</span>
+            <span style="text-align: right; color: var(--text-danger); font-weight: 500;">-₹3,000</span>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="budgets-view" class="view-panel">
+      <button class="btn-back" onclick="navigateToView('dashboard-view')">
+        <i class="ti ti-arrow-left"></i> Back to Dashboard
+      </button>
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Budgets</h1>
+          <p class="page-subtitle">Set limits per category and monitor spend</p>
+        </div>
+        <button class="btn-primary" onclick="openModal('add-budget-modal')">
+          <i class="ti ti-plus"></i>Set budget
+        </button>
+      </div>
+      <div class="stats-grid-3">
+        <div class="stat-card">
+          <span class="stat-label">Total budgeted</span>
+          <span class="stat-value">₹38,000</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Spent so far</span>
+          <span class="stat-value">₹25,840</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Over budget</span>
+          <span class="stat-value danger">1 category</span>
+        </div>
+      </div>
+      <div class="card-list" id="budgets-container">
+        <div class="budget-item-card">
+          <div class="budget-header">
+            <span>Food and dining</span>
+            <span style="color: var(--text-danger);">₹8,620 / ₹10,000</span>
+          </div>
+          <div class="progress-bar-bg">
+            <div class="progress-bar-fill progress-fill-warning" style="width: 86%;"></div>
+          </div>
+        </div>
+        <div class="budget-item-card">
+          <div class="budget-header">
+            <span>Travel</span>
+            <span style="color: var(--text-secondary);">₹3,000 / ₹8,000</span>
+          </div>
+          <div class="progress-bar-bg">
+            <div class="progress-bar-fill progress-fill-success" style="width: 38%;"></div>
+          </div>
+        </div>
+        <div class="budget-item-card">
+          <div class="budget-header">
+            <span>Shopping</span>
+            <span style="color: var(--text-danger);">₹9,200 / ₹8,000</span>
+          </div>
+          <div class="progress-bar-bg">
+            <div class="progress-bar-fill progress-fill-danger" style="width: 100%;"></div>
+          </div>
+          <p class="over-budget-warning">₹1,200 over budget</p>
+        </div>
+        <div class="budget-item-card">
+          <div class="budget-header">
+            <span>Utilities</span>
+            <span style="color: var(--text-secondary);">₹5,020 / ₹12,000</span>
+          </div>
+          <div class="progress-bar-bg">
+            <div class="progress-bar-fill progress-fill-success" style="width: 42%;"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="emis-view" class="view-panel">
+      <button class="btn-back" onclick="navigateToView('dashboard-view')">
+        <i class="ti ti-arrow-left"></i> Back to Dashboard
+      </button>
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">EMIs</h1>
+          <p class="page-subtitle">Track your ongoing installments</p>
+        </div>
+        <button class="btn-primary" onclick="openModal('add-emi-modal')">
+          <i class="ti ti-plus"></i>Add EMI
+        </button>
+      </div>
+      <div class="stats-grid-3">
+        <div class="stat-card">
+          <span class="stat-label">Active EMIs</span>
+          <span class="stat-value" id="emis-stat-count">2</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Total per month</span>
+          <span class="stat-value" id="emis-stat-total">₹5,500</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Next due</span>
+          <span class="stat-value" id="emis-stat-next">18 Sep</span>
+        </div>
+      </div>
+      <div class="table-card" id="emis-container">
+        <div class="emi-item">
+          <div class="item-left">
+            <div class="icon-badge">
+              <i class="ti ti-device-mobile"></i>
+            </div>
+            <div>
+              <p class="item-title">Phone EMI</p>
+              <p class="item-subtitle">8 of 12 installments paid</p>
+            </div>
+          </div>
+          <div class="item-right">
+            <p class="item-amount">₹2,100/mo</p>
+            <p class="item-date">Due 18 Sep</p>
+          </div>
+        </div>
+        <div class="emi-item">
+          <div class="item-left">
+            <div class="icon-badge">
+              <i class="ti ti-device-laptop"></i>
+            </div>
+            <div>
+              <p class="item-title">Laptop EMI</p>
+              <p class="item-subtitle">4 of 10 installments paid</p>
+            </div>
+          </div>
+          <div class="item-right">
+            <p class="item-amount">₹3,400/mo</p>
+            <p class="item-date">Due 22 Sep</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="loans-view" class="view-panel">
+      <button class="btn-back" onclick="navigateToView('dashboard-view')">
+        <i class="ti ti-arrow-left"></i> Back to Dashboard
+      </button>
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Loans</h1>
+          <p class="page-subtitle">Track balances and repayment progress</p>
+        </div>
+        <button class="btn-primary" onclick="openModal('add-loan-modal')">
+          <i class="ti ti-plus"></i>Add loan
+        </button>
+      </div>
+      <div class="stats-grid-3">
+        <div class="stat-card">
+          <span class="stat-label">Active loans</span>
+          <span class="stat-value" id="loans-stat-active">1</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Total outstanding</span>
+          <span class="stat-value" id="loans-stat-total">₹6,00,000</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Monthly outgo</span>
+          <span class="stat-value" id="loans-stat-monthly">₹18,580</span>
+        </div>
+      </div>
+      <div class="card-list" id="loans-container">
+      </div>
+    </section>
+    <section id="fmex-view" class="view-panel">
+      <button class="btn-back" onclick="navigateToView('dashboard-view')">
+        <i class="ti ti-arrow-left"></i> Back to Dashboard
+      </button>
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Fixed monthly expenses</h1>
+          <p class="page-subtitle">Track recurring commitments, rent, and active subscriptions</p>
+        </div>
+        <button class="btn-primary" onclick="openModal('add-fmex-modal')">
+          <i class="ti ti-plus"></i>Add expense
+        </button>
+      </div>
+      <div class="stats-grid-3">
+        <div class="stat-card">
+          <span class="stat-label">Total FMEX</span>
+          <span class="stat-value" id="fmex-stat-total">₹18,950/mo</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Active recurring items</span>
+          <span class="stat-value" id="fmex-stat-count">3</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Next due</span>
+          <span class="stat-value" id="fmex-stat-next">1 Oct</span>
+        </div>
+      </div>
+      <div class="table-card" id="fmex-container">
+      </div>
+    </section>
+    <section id="ai-view" class="view-panel">
+      <div class="ai-view-container">
+        <div class="ai-header">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <div class="ai-header-icon">
+              <i class="ti ti-sparkles"></i>
+            </div>
+            <div>
+              <span class="ai-header-title">Macwatis Co-Pilot</span>
+            </div>
+          </div>
+          <div style="display: flex; gap: 8px;">
+            <button class="btn-ghost-sm" onclick="clearAiChat()" title="Clear Chat History">
+              <i class="ti ti-trash"></i> Clear
+            </button>
+          </div>
+        </div>
+        <div class="ai-body" id="ai-chat-body">
+          <div id="ai-hero-empty"
+            style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+            <div class="ai-center-icon">
+              <i class="ti ti-sparkles"></i>
+            </div>
+            <p class="ai-center-title">Co-Pilot</p>
+            <p class="ai-center-subtitle">Ask about your spending, upload a receipt, or log expenses in plain English.
+            </p>
+            <div class="ai-prompt-suggestions">
+              <span class="prompt-pill" onclick="sendQuickPrompt('Spent 350 on groceries at Nature Basket')">"Spent 350
+                on groceries"</span>
+              <span class="prompt-pill"
+                onclick="sendQuickPrompt('How much have I spent on food & dining this month?')">"How much did I spend on
+                dining?"</span>
+              <span class="prompt-pill"
+                onclick="sendQuickPrompt('Analyze my spending and suggest a 3-step savings plan')">"Analyze my budget &
+                savings"</span>
+              <span class="prompt-pill" onclick="sendQuickPrompt('What are my upcoming EMI commitments?')">"What are my
+                upcoming EMIs?"</span>
+            </div>
+          </div>
+          <div class="chat-messages" id="chat-messages-stream" style="display: none;"></div>
+        </div>
+        <div id="ai-image-preview-container" class="ai-image-preview-bar" style="display: none;">
+          <div class="image-preview-badge">
+            <i class="ti ti-receipt"></i>
+            <span id="ai-image-name">receipt.jpg</span>
+            <button type="button" class="btn-remove-preview" onclick="removeAiImagePreview()">&times;</button>
+          </div>
+        </div>
+        <div class="ai-footer-input">
+          <form id="ai-input-form" onsubmit="handleAiPromptSubmit(event)">
+            <div class="ai-input-wrapper">
+              <input type="file" id="ai-image-input" accept="image/*" style="display: none;"
+                onchange="handleAiImageSelect(event)">
+              <button type="button" class="btn-attach" onclick="document.getElementById('ai-image-input').click()"
+                title="Attach Receipt / Bill Image">
+                <i class="ti ti-paperclip"></i>
+              </button>
+              <input type="text" id="ai-prompt-input"
+                placeholder="Ask Co-Pilot about your finances or type 'Spent 250 on coffee'..." autocomplete="off" />
+              <button type="submit" class="btn-send" id="ai-send-button" title="Send">
+                <i class="ti ti-arrow-up"></i>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+    <section id="settings-view" class="view-panel">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Settings</h1>
+        </div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 20px; max-width: 640px;">
+        <div class="dashboard-card">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <h3 class="card-title" style="margin: 0;">Account Details</h3>
+            <button class="btn-ghost-sm" id="btn-settings-auth" onclick="handleSettingsAuthBtnClick()">
+              <i class="ti ti-login"></i> <span id="settings-auth-btn-text">Sign In</span>
+            </button>
+          </div>
+          <div class="row-item">
+            <span>Name</span>
+            <span style="color: var(--text-secondary);" id="settings-user-name">Guest User</span>
+          </div>
+          <div class="row-item">
+            <span>Email</span>
+            <span style="color: var(--text-secondary);" id="settings-user-email">guest@example.com</span>
+          </div>
+          <div class="row-item">
+            <span>Currency</span>
+            <span style="color: var(--text-secondary);" id="settings-user-currency">INR (₹)</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+<div class="modal-overlay" id="add-tx-modal">
+  <div class="modal-card">
+    <div class="modal-header">
+      <h3 class="modal-title">Add Transaction</h3>
+      <button class="btn-close" onclick="closeModal('add-tx-modal')">&times;</button>
+    </div>
+    <div class="ai-scan-banner" onclick="document.getElementById('modal-receipt-input').click()">
+      <input type="file" id="modal-receipt-input" accept="image/*" style="display: none;"
+        onchange="handleModalReceiptScan(event)">
+      <i class="ti ti-camera" style="font-size: 18px; color: #60a5fa;"></i>
+      <div>
+        <strong style="font-size: 12px; color: #fff; display: block;">Scan Receipt with Vision AI</strong>
+        <span style="font-size: 11px; color: var(--text-secondary);">Upload bill image to auto-fill details</span>
+      </div>
+    </div>
+    <form id="form-add-tx" onsubmit="handleAddTransaction(event)">
+      <div class="form-group">
+        <label class="form-label">Description</label>
+        <input type="text" class="form-input" id="tx-desc" placeholder="e.g. Grocery Store" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Category</label>
+        <select class="form-select" id="tx-cat">
+          <option value="Food">Food</option>
+          <option value="Shopping">Shopping</option>
+          <option value="Utilities">Utilities</option>
+          <option value="Travel">Travel</option>
+          <option value="Income">Income</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Amount (₹)</label>
+        <input type="number" class="form-input" id="tx-amount" placeholder="e.g. 500" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Type</label>
+        <select class="form-select" id="tx-type">
+          <option value="expense">Expense (-)</option>
+          <option value="income">Income (+)</option>
+        </select>
+      </div>
+      <button type="submit" class="btn-submit">Save Transaction</button>
+    </form>
+  </div>
+</div>
+<div class="modal-overlay" id="add-budget-modal">
+  <div class="modal-card">
+    <div class="modal-header">
+      <h3 class="modal-title">Set Category Budget</h3>
+      <button class="btn-close" onclick="closeModal('add-budget-modal')">&times;</button>
+    </div>
+    <form id="form-add-budget" onsubmit="handleAddBudget(event)">
+      <div class="form-group">
+        <label class="form-label">Category Name</label>
+        <input type="text" id="budget-category" class="form-input" placeholder="e.g. Entertainment" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Monthly Limit (₹)</label>
+        <input type="number" id="budget-limit" class="form-input" placeholder="e.g. 10000" min="1" required>
+      </div>
+      <button type="submit" class="btn-submit" id="btn-submit-budget">Save Budget</button>
+    </form>
+  </div>
+</div>
+<div class="modal-overlay" id="add-emi-modal">
+  <div class="modal-card">
+    <div class="modal-header">
+      <h3 class="modal-title">Add New EMI</h3>
+      <button class="btn-close" onclick="closeModal('add-emi-modal')">&times;</button>
+    </div>
+    <form id="form-add-emi" onsubmit="handleAddEMI(event)">
+      <div class="form-group">
+        <label class="form-label">Item / Product Name</label>
+        <input type="text" id="emi-name" class="form-input" placeholder="e.g. iPad Pro" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Monthly EMI (₹)</label>
+        <input type="number" id="emi-amount" class="form-input" placeholder="e.g. 4500" min="1" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Due Day</label>
+        <input type="text" id="emi-due-day" class="form-input" placeholder="e.g. 15th of each month" required>
+      </div>
+      <button type="submit" class="btn-submit" id="btn-submit-emi">Add EMI</button>
+    </form>
+  </div>
+</div>
+<div class="modal-overlay" id="add-loan-modal">
+  <div class="modal-card">
+    <div class="modal-header">
+      <h3 class="modal-title">Add New Loan</h3>
+      <button class="btn-close" onclick="closeModal('add-loan-modal')">&times;</button>
+    </div>
+    <form id="form-add-loan" onsubmit="handleAddLoan(event)">
+      <div class="form-group">
+        <label class="form-label">Loan Type / Name</label>
+        <input type="text" id="loan-name" class="form-input" placeholder="e.g. Home Loan" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Principal Amount (₹)</label>
+        <input type="number" id="loan-principal" class="form-input" placeholder="e.g. 2500000" min="1" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Interest Rate (%)</label>
+        <input type="number" id="loan-rate" class="form-input" placeholder="e.g. 8.5" step="0.1" min="0" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Tenure (Months)</label>
+        <input type="number" id="loan-tenure" class="form-input" placeholder="e.g. 36" min="1" value="36" required>
+      </div>
+      <button type="submit" class="btn-submit" id="btn-submit-loan">Save Loan</button>
+    </form>
+  </div>
+</div>
+<div class="modal-overlay" id="add-fmex-modal">
+  <div class="modal-card">
+    <div class="modal-header">
+      <h3 class="modal-title">Add Fixed Monthly Expense</h3>
+      <button class="btn-close" onclick="closeModal('add-fmex-modal')">&times;</button>
+    </div>
+    <form id="form-add-fmex" onsubmit="handleAddFMEX(event)">
+      <div class="form-group">
+        <label class="form-label">Expense Name</label>
+        <input type="text" id="fmex-name" class="form-input" placeholder="e.g. WiFi Internet" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Monthly Amount (₹)</label>
+        <input type="number" id="fmex-amount" class="form-input" placeholder="e.g. 999" min="1" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Due Day / Frequency</label>
+        <input type="text" id="fmex-due" class="form-input" placeholder="e.g. 5th of every month" required>
+      </div>
+      <button type="submit" class="btn-submit" id="btn-submit-fmex">Save Expense</button>
+    </form>
+  </div>
+</div>
+<div class="modal-overlay" id="gemini-setup-modal">
+  <div class="modal-card">
+    <div class="modal-header">
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <div class="ai-header-icon" style="width: 28px; height: 28px; font-size: 14px;">
+          <i class="ti ti-sparkles"></i>
+        </div>
+        <h3 class="modal-title">Gemini API Settings</h3>
+      </div>
+      <button class="btn-close" onclick="closeModal('gemini-setup-modal')">&times;</button>
+    </div>
+    <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 16px; line-height: 1.4;">
+      Power Macwatis with Co-Pilot AI. If you don't have a key, get one free from Google AI Studio.
+    </p>
+    <div class="form-group">
+      <label class="form-label">Gemini API Key</label>
+      <div style="display: flex; gap: 8px;">
+        <input type="password" id="modal-gemini-key" class="form-input" placeholder="AIzaSy..." style="flex: 1;">
+        <button type="button" class="btn-ghost-sm" onclick="toggleApiKeyVisibility('modal-gemini-key', this)">
+          <i class="ti ti-eye"></i>
+        </button>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Model</label>
+      <select id="modal-gemini-model" class="form-select">
+        <option value="gemini-1.5-flash-latest">Gemini 1.5 Flash (Auto Latest - Recommended)</option>
+        <option value="gemini-1.5-flash">Gemini 1.5 Flash</option>
+        <option value="gemini-2.0-flash">Gemini 2.0 Flash</option>
+        <option value="gemini-1.5-pro-latest">Gemini 1.5 Pro</option>
+        <option value="gemini-pro">Gemini 1.0 Pro (Universal Fallback)</option>
+      </select>
+    </div>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 18px;">
+      <a href="https://aistudio.google.com/app/apikey" target="_blank"
+        style="color: #60a5fa; font-size: 12px; text-decoration: none;">
+        Get API key free <i class="ti ti-external-link" style="font-size: 11px;"></i>
+      </a>
+      <div style="display: flex; gap: 8px;">
+        <button type="button" class="btn-ghost-sm" onclick="closeModal('gemini-setup-modal')">Cancel</button>
+        <button type="button" class="btn-submit" style="width: auto; padding: 7px 16px;"
+          onclick="saveGeminiModalSettings()">Save Settings</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="finly-toast" class="finly-toast"></div>
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<div style="display:flex; gap:0; min-height:600px; font-family:var(--font-sans);">
+  <div style="width:190px; flex-shrink:0; border-right:0.5px solid var(--border); padding:1.25rem 1rem; display:flex; flex-direction:column; gap:4px;">
+    <div style="display:flex; align-items:center; gap:8px; margin-bottom:1.5rem;">
+      <div style="width:28px; height:28px; border-radius:8px; background:var(--bg-accent); display:flex; align-items:center; justify-content:center;"><i class="ti ti-wallet" style="font-size:16px; color:var(--text-accent);" aria-hidden="true"></i></div>
+      <span style="font-weight:500; font-size:15px;">Finly</span>
+    </div>
+    <div style="display:flex; align-items:center; gap:10px; padding:8px 10px; border-radius:var(--radius); color:var(--text-secondary);"><i class="ti ti-layout-dashboard" style="font-size:16px;" aria-hidden="true"></i><span style="font-size:13px;">Dashboard</span></div>
+    <div style="display:flex; align-items:center; gap:10px; padding:8px 10px; border-radius:var(--radius); background:var(--fill-ghost-selected, var(--surface-1));"><i class="ti ti-arrows-exchange" style="font-size:16px;" aria-hidden="true"></i><span style="font-size:13px; font-weight:500;">Transactions</span></div>
+    <div style="display:flex; align-items:center; gap:10px; padding:8px 10px; border-radius:var(--radius); color:var(--text-secondary);"><i class="ti ti-chart-pie" style="font-size:16px;" aria-hidden="true"></i><span style="font-size:13px;">Budgets</span></div>
+    <div style="display:flex; align-items:center; gap:10px; padding:8px 10px; border-radius:var(--radius); color:var(--text-secondary);"><i class="ti ti-credit-card" style="font-size:16px;" aria-hidden="true"></i><span style="font-size:13px;">EMIs</span></div>
+    <div style="display:flex; align-items:center; gap:10px; padding:8px 10px; border-radius:var(--radius); color:var(--text-secondary);"><i class="ti ti-building-bank" style="font-size:16px;" aria-hidden="true"></i><span style="font-size:13px;">Loans</span></div>
+    <div style="display:flex; align-items:center; gap:10px; padding:8px 10px; border-radius:var(--radius); color:var(--text-secondary);"><i class="ti ti-message-circle" style="font-size:16px;" aria-hidden="true"></i><span style="font-size:13px;">AI assistant</span></div>
+    <div style="display:flex; align-items:center; gap:10px; padding:8px 10px; border-radius:var(--radius); color:var(--text-secondary);"><i class="ti ti-settings" style="font-size:16px;" aria-hidden="true"></i><span style="font-size:13px;">Settings</span></div>
+    <div style="margin-top:auto; display:flex; align-items:center; gap:8px; padding-top:1rem; border-top:0.5px solid var(--border);">
+      <div style="width:26px; height:26px; border-radius:50%; background:var(--bg-accent); display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:500; color:var(--text-accent);">RS</div>
+      <span style="font-size:12px; color:var(--text-secondary);">Riya S.</span>
+    </div>
+  </div>
+
+  <div style="flex:1; padding:1.25rem 1.5rem; min-width:0;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+      <div>
+        <p style="font-size:18px; font-weight:500; margin:0;">Transactions</p>
+        <p style="font-size:13px; color:var(--text-secondary); margin:2px 0 0;">All income and expenses</p>
+      </div>
+      <button style="display:flex; align-items:center; gap:6px; font-size:13px;"><i class="ti ti-plus" style="font-size:15px;" aria-hidden="true"></i>Add transaction</button>
+    </div>
+
+    <div style="display:flex; gap:8px; margin-bottom:1rem;">
+      <div style="display:flex; align-items:center; gap:8px; background:var(--fill-field); border:0.5px solid var(--fill-field-ring); border-radius:var(--radius); padding:6px 12px; flex:1;">
+        <i class="ti ti-search" style="font-size:15px; color:var(--text-muted);" aria-hidden="true"></i>
+        <input type="text" placeholder="Search transactions" style="flex:1; border:none; background:transparent; font-size:13px; outline:none;" />
+      </div>
+      <select style="font-size:13px;"><option>All categories</option></select>
+      <select style="font-size:13px;"><option>This month</option></select>
+    </div>
+
+    <div style="background:var(--surface-2); border:0.5px solid var(--border); border-radius:12px; overflow:hidden;">
+      <div style="display:grid; grid-template-columns:2fr 1fr 1fr 1fr; padding:10px 1.25rem; font-size:12px; color:var(--text-secondary); border-bottom:0.5px solid var(--border);">
+        <span>Description</span><span>Category</span><span>Date</span><span style="text-align:right;">Amount</span>
+      </div>
+      <div style="display:grid; grid-template-columns:2fr 1fr 1fr 1fr; padding:12px 1.25rem; font-size:13px; border-bottom:0.5px solid var(--border); align-items:center;">
+        <span>Swiggy order</span><span style="color:var(--text-secondary);">Food</span><span style="color:var(--text-secondary);">12 Sep</span><span style="text-align:right; color:var(--text-danger);">-₹420</span>
+      </div>
+      <div style="display:grid; grid-template-columns:2fr 1fr 1fr 1fr; padding:12px 1.25rem; font-size:13px; border-bottom:0.5px solid var(--border); align-items:center;">
+        <span>Salary credit</span><span style="color:var(--text-secondary);">Income</span><span style="color:var(--text-secondary);">1 Sep</span><span style="text-align:right; color:var(--text-success);">+₹85,000</span>
+      </div>
+      <div style="display:grid; grid-template-columns:2fr 1fr 1fr 1fr; padding:12px 1.25rem; font-size:13px; border-bottom:0.5px solid var(--border); align-items:center;">
+        <span>Electricity bill</span><span style="color:var(--text-secondary);">Utilities</span><span style="color:var(--text-secondary);">8 Sep</span><span style="text-align:right; color:var(--text-danger);">-₹1,850</span>
+      </div>
+      <div style="display:grid; grid-template-columns:2fr 1fr 1fr 1fr; padding:12px 1.25rem; font-size:13px; border-bottom:0.5px solid var(--border); align-items:center;">
+        <span>Zomato order</span><span style="color:var(--text-secondary);">Food</span><span style="color:var(--text-secondary);">10 Sep</span><span style="text-align:right; color:var(--text-danger);">-₹610</span>
+      </div>
+      <div style="display:grid; grid-template-columns:2fr 1fr 1fr 1fr; padding:12px 1.25rem; font-size:13px; align-items:center;">
+        <span>Flight booking</span><span style="color:var(--text-secondary);">Travel</span><span style="color:var(--text-secondary);">5 Sep</span><span style="text-align:right; color:var(--text-danger);">-₹3,000</span>
+      </div>
+    </div>
+  </div>
+</div>
